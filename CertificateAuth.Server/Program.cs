@@ -5,6 +5,10 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddAzureKeyVault(
+    new Uri("https://kvamalnidhi.vault.azure.net/"),
+    new DefaultAzureCredential());
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
@@ -30,12 +34,9 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpContextAccessor();
 
-if (builder.Environment.IsProduction())
-{
-    builder.Configuration.AddAzureKeyVault(
-        new Uri("https://kvamalnidhi.vault.azure.net/"),
-        new DefaultAzureCredential());
-}
+
+
+
 
 
 var app = builder.Build();
