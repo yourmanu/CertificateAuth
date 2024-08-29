@@ -1,6 +1,7 @@
 using Azure.Identity;
 using CertificateAuth.Server.Components;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Graph.Models.ExternalConnectors;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 var builder = WebApplication.CreateBuilder(args);
@@ -14,9 +15,21 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+//builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+//    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
+//    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read" })
+//    .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
+//    .AddInMemoryTokenCaches();
+
+
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
-    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read" })
+        .AddMicrosoftIdentityWebApp(options =>
+        {
+            builder.Configuration.Bind("AzureAd",options);
+            options.Events ??= new OpenIdConnectEvents();
+            options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
+        })
+            .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read" })
     .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
     .AddInMemoryTokenCaches();
 
@@ -75,3 +88,11 @@ app.Map("/env", (context) =>
 });
 
 app.Run();
+
+async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
+{
+    // Custom code here
+
+    // Don't remove this line
+    await Task.CompletedTask.ConfigureAwait(false);
+}
