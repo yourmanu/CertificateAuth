@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateAuth.Server", "CertificateAuth.Server\CertificateAuth.Server.csproj", "{3BB20DCC-32AF-42CD-9EBC-030EFA4A03A5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateAuth.Client", "CertificateAuth.Client\CertificateAuth.Client.csproj", "{8F843C4A-ED95-48F1-9811-4EE40C3C36E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3BB20DCC-32AF-42CD-9EBC-030EFA4A03A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BB20DCC-32AF-42CD-9EBC-030EFA4A03A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BB20DCC-32AF-42CD-9EBC-030EFA4A03A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BB20DCC-32AF-42CD-9EBC-030EFA4A03A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F843C4A-ED95-48F1-9811-4EE40C3C36E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F843C4A-ED95-48F1-9811-4EE40C3C36E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F843C4A-ED95-48F1-9811-4EE40C3C36E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F843C4A-ED95-48F1-9811-4EE40C3C36E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {55FE0414-25EC-45A8-BC89-6404E3BD9493}
+	EndGlobalSection
+EndGlobal

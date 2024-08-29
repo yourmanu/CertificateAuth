@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+<CascadingAuthenticationState>
+<AuthorizeView>
+    <Authorized>
+        Hello, @context.User.Identity?.Name!
+            <button class="nav-link btn btn-link" @onclick="BeginLogout">Log out</button>
+    </Authorized>
+    <NotAuthorized>
+        <a href="authentication/login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+</CascadingAuthenticationState>
+@code{
+    private void BeginLogout(MouseEventArgs args)
+    {
+        //Navigation.NavigateToLogout("authentication/logout");
+        //Navigation.NavigateTo("authentication/logout");
+        Navigation.NavigateTo("/logout");
+    }
+}

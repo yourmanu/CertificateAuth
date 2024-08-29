@@ -1,0 +1,12 @@
+﻿@page "/logout"
+@inject NavigationManager Navigation
+@inject IHttpContextAccessor HttpContextAccessor
+
+@code {
+    protected override void OnInitialized()
+    {
+        var context = HttpContextAccessor.HttpContext;
+        var logoutUri = "https://login.microsoftonline.com/common/oauth2/v2.0/logout";
+        context.Response.Redirect(logoutUri);
+    }
+}
