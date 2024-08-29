@@ -43,7 +43,8 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 .AddMicrosoftIdentityWebApp(options => builder.Configuration.Bind("AzureAd", options))
     .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read", "User.Read.All" })
     .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
-    .AddInMemoryTokenCaches();
+    .AddDistributedTokenCaches();
+    //.AddInMemoryTokenCaches();
 
 
 //builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
