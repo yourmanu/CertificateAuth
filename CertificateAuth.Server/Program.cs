@@ -23,7 +23,7 @@ builder.Services.AddSession(options =>
 
 
 
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme).AddCookie()
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
     .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read", "User.Read.All" })
     .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
