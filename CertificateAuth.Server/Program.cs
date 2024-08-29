@@ -75,6 +75,7 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read", "User.Read.All" })
     .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
     .AddDistributedTokenCaches();
+
 //.AddInMemoryTokenCaches();
 
 
