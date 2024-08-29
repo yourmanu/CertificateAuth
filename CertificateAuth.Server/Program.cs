@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 var builder = WebApplication.CreateBuilder(args);
-if(builder.Environment.IsProduction())
+//if(builder.Environment.IsProduction())
 builder.Configuration.AddAzureKeyVault(
     new Uri("https://kvamalnidhi.vault.azure.net/"),
     new DefaultAzureCredential());
