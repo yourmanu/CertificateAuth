@@ -68,4 +68,10 @@ app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(typeof(CertificateAuth.Client._Imports).Assembly);
 
 
+app.Map("/env", (context) =>
+{
+    var envName = builder.Environment.EnvironmentName;
+    return context.Response.WriteAsync($"Environment: {envName}");
+});
+
 app.Run();
