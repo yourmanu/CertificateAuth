@@ -15,23 +15,31 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-//builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-//    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
-//    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read" })
-//    .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
-//    .AddInMemoryTokenCaches();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20); // Set the session timeout
+    options.Cookie.HttpOnly = true; // Prevent client-side access to the cookie
+    options.Cookie.IsEssential = true; // Make the session cookie essential
+});
 
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-        .AddMicrosoftIdentityWebApp(options =>
-        {
-            builder.Configuration.Bind("AzureAd",options);
-            options.Events ??= new OpenIdConnectEvents();
-            options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
-        })
-            .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read" })
+    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
+    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read" })
     .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
     .AddInMemoryTokenCaches();
+
+
+//builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+//        .AddMicrosoftIdentityWebApp(options =>
+//        {
+//            builder.Configuration.Bind("AzureAd",options);
+//            options.Events ??= new OpenIdConnectEvents();
+//            options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
+//        })
+//            .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read" })
+//    .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
+//    .AddInMemoryTokenCaches();
 
 
 builder.Services.AddControllersWithViews()
@@ -71,6 +79,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+// Use session
+app.UseSession();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -89,10 +100,10 @@ app.Map("/env", (context) =>
 
 app.Run();
 
-async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
-{
-    // Custom code here
+//async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
+//{
+//    // Custom code here
 
-    // Don't remove this line
-    await Task.CompletedTask.ConfigureAwait(false);
-}
+//    // Don't remove this line
+//    await Task.CompletedTask.ConfigureAwait(false);
+//}
