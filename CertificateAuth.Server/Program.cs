@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Graph.Models.ExternalConnectors;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using System.IdentityModel.Tokens.Jwt;
 var builder = WebApplication.CreateBuilder(args);
 //if(builder.Environment.IsProduction())
 //builder.Configuration.AddAzureKeyVault(
@@ -15,6 +16,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 builder.Services.AddSession(options =>
 {
