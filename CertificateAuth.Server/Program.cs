@@ -1,15 +1,17 @@
 using Azure.Identity;
+using Azure.Security.KeyVault.Certificates;
 using CertificateAuth.Server.Components;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Graph.Models.ExternalConnectors;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography.X509Certificates;
 var builder = WebApplication.CreateBuilder(args);
 //if(builder.Environment.IsProduction())
-//builder.Configuration.AddAzureKeyVault(
-//    new Uri("https://kvamalnidhi.vault.azure.net/"),
-//    new DefaultAzureCredential());
+builder.Configuration.AddAzureKeyVault(
+    new Uri("https://kvamalnidhi.vault.azure.net/"),
+    new DefaultAzureCredential());
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -75,6 +77,25 @@ builder.Services.AddRazorComponents()
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+
+//////////////////////////////////////////////////////////////////////////
+// Access the certificate from Azure Key Vault
+var keyVaultUrl = new Uri("https://kvamalnidhi.vault.azure.net/");
+var credential = new DefaultAzureCredential();
+var certificateClient = new CertificateClient(vaultUri: keyVaultUrl, credential: credential);
+
+string certificateName = "certificateauthsample"; // The name of the certificate in Key Vault
+
+// Retrieve the certificate
+KeyVaultCertificateWithPolicy certificateWithPolicy = await certificateClient.GetCertificateAsync(certificateName);
+byte[] certificateBytes = certificateWithPolicy.Cer;
+X509Certificate2 certificate = new X509Certificate2(certificateBytes);
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
