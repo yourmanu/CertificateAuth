@@ -1,17 +1,14 @@
 using Azure.Identity;
 using CertificateAuth.Server.Components;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Graph.Models.ExternalConnectors;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 var builder = WebApplication.CreateBuilder(args);
 //if(builder.Environment.IsProduction())
-builder.Configuration.AddAzureKeyVault(
-    new Uri("https://kvamalnidhi.vault.azure.net/"),
-    new DefaultAzureCredential());
-
-
-
-
+//builder.Configuration.AddAzureKeyVault(
+//    new Uri("https://kvamalnidhi.vault.azure.net/"),
+//    new DefaultAzureCredential());
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -26,10 +23,24 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // Make the session cookie essential
 });
 
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
+    // Handling SameSite cookie according to https://docs.microsoft.com/en-us/aspnet/core/security/samesite?view=aspnetcore-3.1
+    options.HandleSameSiteCookieCompatibility();
+});
 
+//original working code
+//builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+//    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
+//    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read", "User.Read.All" })
+//    .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
+//    .AddInMemoryTokenCaches();
 
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
+.AddMicrosoftIdentityWebApp(options => builder.Configuration.Bind("AzureAd", options))
     .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read", "User.Read.All" })
     .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
     .AddInMemoryTokenCaches();
@@ -59,11 +70,6 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddHttpContextAccessor();
-
-
-
-
-
 
 var app = builder.Build();
 
