@@ -1,3 +1,4 @@
+using Azure.Identity;
 using CertificateAuth.Server.Components;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
@@ -28,6 +29,13 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddHttpContextAccessor();
+
+if (builder.Environment.IsProduction())
+{
+    builder.Configuration.AddAzureKeyVault(
+        new Uri("https://kvamalnidhi.vault.azure.net/"),
+        new DefaultAzureCredential());
+}
 
 
 var app = builder.Build();
