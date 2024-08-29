@@ -1,7 +1,5 @@
-using Azure.Identity;
 using CertificateAuth.Server.Components;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.Graph.Models.ExternalConnectors;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 var builder = WebApplication.CreateBuilder(args);
@@ -23,9 +21,11 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // Make the session cookie essential
 });
 
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+
+
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme).AddCookie()
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
-    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read" })
+    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read", "User.Read.All" })
     .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
     .AddInMemoryTokenCaches();
 
