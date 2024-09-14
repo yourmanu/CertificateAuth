@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - Cer
+name: Build and deploy ASP.Net Core app to Azure Web App - evergrow
 
 on:
   push:
@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 
 env:
-  DOTNET_ROOT: 'CertificateAuth.Server'
-  AZURE_APP_PROJECT_PATH: 'CertificateAuth.Server'
+  DOTNET_ROOT: 'Solution/AmalNidhi/AmalNidhi'
+  AZURE_APP_PROJECT_PATH: 'Solution/AmalNidhi/AmalNidhi'
 jobs:
   build:
     runs-on: windows-latest
@@ -56,7 +56,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'certificateauth'
+          app-name: 'evergrow'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3F56A9D0B22945AC8B55C0E43CAB4CC0 }}
           package: .
