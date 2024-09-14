@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 
 env:
-  DOTNET_ROOT: 'Solution/AmalNidhi/AmalNidhi'
-  AZURE_APP_PROJECT_PATH: 'Solution/AmalNidhi/AmalNidhi'
+  DOTNET_ROOT: 'CertificateAuth.Server'
+  AZURE_APP_PROJECT_PATH: 'CertificateAuth.Server'
 jobs:
   build:
     runs-on: windows-latest
@@ -56,7 +56,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'evergrow'
+          app-name: 'certificateauthsample'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3F56A9D0B22945AC8B55C0E43CAB4CC0 }}
           package: .
